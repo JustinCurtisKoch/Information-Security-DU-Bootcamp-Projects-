@@ -1,0 +1,29 @@
+#!/bin/bash
+
+freemem=$HOME/Project_5AL/backup/freemem/freemem.txt
+diskuse=$HOME/Project_5AL/backup/diskuse/diskuse.txt
+freedisk=$HOME/Project_5AL/backup/freedisk/freedisk.txt
+
+echo MEMEORY BREAKDOWN BY CATEGORY > $freemem
+echo -e '\nTOTAL:' >> $freemem
+free -h | grep -i 'mem' | awk '{print $2}' >> $freemem
+echo -e '\nUSED:' >>$freemem
+free -h | grep -i 'mem' | awk '{print $3}' >> $freemem
+echo -e '\nFREE:' >> $freemem
+free -h | grep -i 'mem' | awk '{print $4}' >> $freemem
+echo -e '\nAVAIL:' >> $freemem
+free -h | grep -i 'mem' | awk '{print $7}' >> $freemem
+
+# Disk usage output to a disk_usage.txt file
+echo -e 'DISK USAGE BY TYPE:\n' > $diskuse
+df -TH | head -2 >> $diskuse
+
+# List open files to a open_list.txt file
+lsof > ~/Project_5AL/backup/openlist/openlist.txt
+
+# File system disk space to a free_disk.txt file
+echo File System Disk Space: > $freedisk 
+du -ch | grep -i total >> $freedisk
+echo -e '\nfile system disk space by item:' >> $freedisk
+du -h >> $freedisk
+
